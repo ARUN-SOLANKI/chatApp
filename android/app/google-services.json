@@ -1,0 +1,105 @@
+{
+  "project_info": {
+    "project_number": "930396968501",
+    "project_id": "chatsapp-7a080",
+    "storage_bucket": "chatsapp-7a080.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930396968501:android:e797031497299aa327437c",
+        "android_client_info": {
+          "package_name": "com.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930396968501-ck4covgh699cmjvlinn3chibujpp9a71.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6YnxFWeL6jsLEKntwASNJymMUTyCHdnQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930396968501-ck4covgh699cmjvlinn3chibujpp9a71.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930396968501:android:5817025e220772b927437c",
+        "android_client_info": {
+          "package_name": "com.myapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930396968501-ck4covgh699cmjvlinn3chibujpp9a71.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6YnxFWeL6jsLEKntwASNJymMUTyCHdnQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930396968501-ck4covgh699cmjvlinn3chibujpp9a71.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930396968501:android:e466c3efc0296a2227437c",
+        "android_client_info": {
+          "package_name": "com.myappsc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930396968501-avmd12htt4216pkvughhr2nqg4nl3k36.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myappsc",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "930396968501-ck4covgh699cmjvlinn3chibujpp9a71.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6YnxFWeL6jsLEKntwASNJymMUTyCHdnQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930396968501-ck4covgh699cmjvlinn3chibujpp9a71.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

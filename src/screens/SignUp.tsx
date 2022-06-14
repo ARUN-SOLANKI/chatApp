@@ -6,10 +6,83 @@ import {
   Platform,
   Button,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
+import {createUser} from '../utils/firebase';
+import {setItem} from '../utils/AsyncStorage';
+
+type userInfoType = {
+  email: string;
+  password: string;
+  confirm: string;
+  error: string;
+};
 
 const SignUp = ({navigation}: any) => {
+  const [userInfo, setUserInfo] = useState<userInfoType>({
+    email: '',
+    password: '',
+    confirm: '',
+    error: '',
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const SignUp = async () => {
+    if (userInfo.email && userInfo.password && userInfo.confirm) {
+      setIsLoading(true);
+      if (userInfo.password == userInfo.confirm) {
+        const res: any = await createUser(userInfo.email, userInfo.password);
+        if (res?.user?.uid) {
+          setItem('UID', res?.user?.uid);
+          setUserInfo({
+            email: '',
+            password: '',
+            confirm: '',
+            error: '',
+          });
+          setIsLoading(false);
+        } else {
+          setIsLoading(false);
+          setUserInfo({
+            ...userInfo,
+            error: res,
+          });
+          errTime();
+        }
+        console.log(res, 'ressss');
+      } else {
+        setIsLoading(false);
+        setUserInfo({
+          ...userInfo,
+          error: 'password and confirm password should be same',
+        });
+        errTime();
+      }
+    } else {
+      setUserInfo({
+        ...userInfo,
+        error: 'field should not be empty',
+      });
+      errTime();
+    }
+  };
+  const UserInfo = (key: string, value: string) => {
+    setUserInfo({
+      ...userInfo,
+      [key]: value,
+    });
+  };
+
+  const errTime = () => {
+    setTimeout(() => {
+      setUserInfo({
+        ...userInfo,
+        error: '',
+      });
+    }, 3000);
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.loginContainer}>
@@ -20,21 +93,31 @@ const SignUp = ({navigation}: any) => {
           placeholder="Enter You Email"
           placeholderTextColor="#577072"
           style={styles.textInput}
+          value={userInfo.email}
+          onChangeText={e => UserInfo('email', e)}
         />
         <TextInput
           secureTextEntry={true}
           placeholder="Enter Password"
           style={styles.textInput}
           placeholderTextColor="#577072"
+          value={userInfo.password}
+          onChangeText={e => UserInfo('password', e)}
         />
         <TextInput
           secureTextEntry={true}
           placeholder="Confirm Password"
           style={styles.textInput}
           placeholderTextColor="#577072"
+          value={userInfo.confirm}
+          onChangeText={e => UserInfo('confirm', e)}
         />
-        <TouchableOpacity style={styles.submitBtn}>
-          <Text style={styles.submitBtnText}>SignUp</Text>
+        <TouchableOpacity style={styles.submitBtn} onPress={SignUp}>
+          {isLoading ? (
+            <ActivityIndicator color="red" size="small" />
+          ) : (
+            <Text style={styles.submitBtnText}>SignUp</Text>
+          )}
         </TouchableOpacity>
         <View style={styles.lineContainer}>
           <View style={styles.line}></View>
@@ -43,10 +126,13 @@ const SignUp = ({navigation}: any) => {
         </View>
         <TouchableOpacity
           style={styles.submitBtn}
-          onPress={() => navigation.navigate('Login')}
-        >
+          onPress={() => navigation.navigate('Login')}>
           <Text style={styles.submitBtnText}>Login</Text>
         </TouchableOpacity>
+
+        {userInfo.error ? (
+          <Text style={styles.errorStyle}>{userInfo.error}</Text>
+        ) : null}
       </View>
     </View>
   );
@@ -112,5 +198,12 @@ const styles = StyleSheet.create({
   OR: {
     color: '#fff',
     marginHorizontal: 5,
+  },
+  errorStyle: {
+    textAlign: 'center',
+    marginVertical: 10,
+    color: 'red',
+    fontSize: 16,
+    width: '100%',
   },
 });

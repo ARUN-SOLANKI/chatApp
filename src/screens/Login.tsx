@@ -6,10 +6,67 @@ import {
   Platform,
   Button,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {signInWithFirebase} from '../utils/firebase';
+import {setItem} from '../utils/AsyncStorage';
 
-const Login = ({navigation}: any) => {
+const Login = ({navigation, isLogIn}: any) => {
+  const [userInfo, setUserInfo] = useState({
+    email: '',
+    password: '',
+    error: '',
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const userData = (key: string, value: string) => {
+    setUserInfo({
+      ...userInfo,
+      [key]: value,
+    });
+  };
+
+  const errTime = () => {
+    setTimeout(() => {
+      setUserInfo({
+        ...userInfo,
+        error: '',
+      });
+    }, 3000);
+  };
+
+  const Login = async () => {
+    if (userInfo.email && userInfo.password) {
+      setIsLoading(true);
+      const res = await signInWithFirebase(userInfo.email, userInfo.password);
+      if (res?.user?.uid) {
+        setItem('UID', res?.user?.uid);
+        setUserInfo({
+          email: '',
+          password: '',
+          error: '',
+        });
+        navigation.navigate('Home');
+        setIsLoading(false);
+      }
+    } else {
+      setIsLoading(false);
+      setUserInfo({
+        ...userInfo,
+        error: 'fields should not be Empty',
+      });
+      errTime();
+    }
+  };
+
+  useEffect(() => {
+    if (isLogIn) {
+      console.log(isLogIn, 'bdkcnsdjvbaksbsdkcnskxxfnckd');
+      // navigation.navigate('Home');
+    }
+  }, [isLogIn]);
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.loginContainer}>
@@ -20,15 +77,23 @@ const Login = ({navigation}: any) => {
           placeholder="Enter You Email"
           placeholderTextColor="#577072"
           style={styles.textInput}
+          value={userInfo.email}
+          onChangeText={e => userData('email', e)}
         />
         <TextInput
           secureTextEntry={true}
           placeholder="Enter Password"
           style={styles.textInput}
           placeholderTextColor="#577072"
+          value={userInfo.password}
+          onChangeText={e => userData('password', e)}
         />
-        <TouchableOpacity style={styles.submitBtn}>
-          <Text style={styles.submitBtnText}>Login</Text>
+        <TouchableOpacity style={styles.submitBtn} onPress={Login}>
+          {isLoading ? (
+            <ActivityIndicator color="red" size="small" />
+          ) : (
+            <Text style={styles.submitBtnText}>Login</Text>
+          )}
         </TouchableOpacity>
         <View style={styles.lineContainer}>
           <View style={styles.line}></View>
@@ -37,10 +102,13 @@ const Login = ({navigation}: any) => {
         </View>
         <TouchableOpacity
           style={styles.submitBtn}
-          onPress={() => navigation.navigate('SignUp')}
-        >
+          onPress={() => navigation.navigate('SignUp')}>
           <Text style={styles.submitBtnText}>Create an Account</Text>
         </TouchableOpacity>
+
+        {userInfo.error ? (
+          <Text style={styles.errorStyle}>{userInfo.error}</Text>
+        ) : null}
       </View>
     </View>
   );
@@ -106,5 +174,12 @@ const styles = StyleSheet.create({
   OR: {
     color: '#fff',
     marginHorizontal: 5,
+  },
+  errorStyle: {
+    textAlign: 'center',
+    marginVertical: 10,
+    color: 'red',
+    fontSize: 16,
+    width: '100%',
   },
 });
