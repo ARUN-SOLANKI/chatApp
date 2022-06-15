@@ -10,15 +10,16 @@ import {
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {signInWithFirebase} from '../utils/firebase';
-import {setItem} from '../utils/AsyncStorage';
+import {setItem, getItem} from '../utils/AsyncStorage';
 
-const Login = ({navigation, isLogIn}: any) => {
+const Login = ({navigation}: any) => {
   const [userInfo, setUserInfo] = useState({
     email: '',
     password: '',
     error: '',
   });
   const [isLoading, setIsLoading] = useState(false);
+  // const [isLogIn, setIsLogIn] = useState<any>('');
 
   const userData = (key: string, value: string) => {
     setUserInfo({
@@ -41,6 +42,7 @@ const Login = ({navigation, isLogIn}: any) => {
       setIsLoading(true);
       const res = await signInWithFirebase(userInfo.email, userInfo.password);
       if (res?.user?.uid) {
+        setIsLoading(false);
         setItem('UID', res?.user?.uid);
         setUserInfo({
           email: '',
@@ -48,7 +50,13 @@ const Login = ({navigation, isLogIn}: any) => {
           error: '',
         });
         navigation.navigate('Home');
+      } else {
         setIsLoading(false);
+        setUserInfo({
+          ...userInfo,
+          error: res,
+        });
+        errTime();
       }
     } else {
       setIsLoading(false);
@@ -60,12 +68,17 @@ const Login = ({navigation, isLogIn}: any) => {
     }
   };
 
-  useEffect(() => {
-    if (isLogIn) {
-      console.log(isLogIn, 'bdkcnsdjvbaksbsdkcnskxxfnckd');
-      // navigation.navigate('Home');
-    }
-  }, [isLogIn]);
+  // useEffect(() => {
+  //   IsuserLogIn();
+  // }, []);
+
+  // const IsuserLogIn = async () => {
+  //   const res: any = await getItem('UID');
+  //   console.log(res, 'async await storage ========');
+  //   if (res) {
+  //     navigation.navigate('Home');
+  //   }
+  // };
 
   return (
     <View style={styles.mainContainer}>

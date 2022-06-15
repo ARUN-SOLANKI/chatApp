@@ -19,7 +19,6 @@ export const createUser = async (email: string, password: string) => {
 export const signInWithFirebase = async (email: string, password: string) => {
   try {
     const res: any = await auth().signInWithEmailAndPassword(email, password);
-    console.log(res);
     if (res) {
       return res;
     }

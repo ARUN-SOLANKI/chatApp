@@ -1,10 +1,21 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Button} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 
-const Home = () => {
+const Home = ({navigation}: any) => {
+  const clearAll = async () => {
+    try {
+      await AsyncStorage.clear();
+      navigation.navigate('Login');
+    } catch (e) {
+      console.log(e);
+    }
+
+    console.log('Done.');
+  };
   return (
-    <View>
-      <Text>Home</Text>
+    <View style={{flex: 1}}>
+      <Button title="Logout" onPress={clearAll} />
     </View>
   );
 };

@@ -34,7 +34,6 @@ const SignUp = ({navigation}: any) => {
       if (userInfo.password == userInfo.confirm) {
         const res: any = await createUser(userInfo.email, userInfo.password);
         if (res?.user?.uid) {
-          setItem('UID', res?.user?.uid);
           setUserInfo({
             email: '',
             password: '',
@@ -50,7 +49,6 @@ const SignUp = ({navigation}: any) => {
           });
           errTime();
         }
-        console.log(res, 'ressss');
       } else {
         setIsLoading(false);
         setUserInfo({
