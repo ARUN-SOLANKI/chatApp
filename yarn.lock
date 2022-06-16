@@ -1348,6 +1348,11 @@
   "resolved" "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-14.11.0.tgz"
   "version" "14.11.0"
 
+"@react-native-firebase/firestore@^14.11.0":
+  "integrity" "sha512-XG7+bLCjbuQtlren/DTTf7WvJ0gcbxp0DRNJ5/m0p8n0+x1fCGlCNpvzwDGQvljxF1JcE/qj22D44DLsJGM8ug=="
+  "resolved" "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-14.11.0.tgz"
+  "version" "14.11.0"
+
 "@react-native-masked-view/masked-view@^0.2.6":
   "integrity" "sha512-303CxmetUmgiX9NSUxatZkNh9qTYYdiM8xkGf9I3Uj20U3eGY3M78ljeNQ4UVCJA+FNGS5nC1dtS9GjIqvB4dg=="
   "resolved" "https://registry.npmjs.org/@react-native-masked-view/masked-view/-/masked-view-0.2.6.tgz"

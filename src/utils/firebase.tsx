@@ -1,10 +1,13 @@
-import auth from '@react-native-firebase/auth';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {signUpResInterface} from './Interfaces';
 
 export const createUser = async (email: string, password: string) => {
   try {
     const res = await auth().createUserWithEmailAndPassword(email, password);
     if (res) {
       return res;
+    } else {
+      return undefined;
     }
   } catch (error: any) {
     if (error?.code === 'auth/email-already-in-use') {
