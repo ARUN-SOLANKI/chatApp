@@ -10,16 +10,16 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {createUser} from '../utils/firebase';
-import {setItem} from '../utils/AsyncStorage';
+import {signUpResInterface} from '../utils/Interfaces';
+import {userInfoType, navigationPropType} from '../utils/Types';
+import firestore from '@react-native-firebase/firestore';
+const userCollection = firestore().collection('users');
 
-type userInfoType = {
-  email: string;
-  password: string;
-  confirm: string;
-  error: string;
+type Proptype = {
+  navigation: navigationPropType;
 };
 
-const SignUp = ({navigation}: any) => {
+const SignUp = ({navigation}: Proptype) => {
   const [userInfo, setUserInfo] = useState<userInfoType>({
     email: '',
     password: '',
@@ -34,7 +34,13 @@ const SignUp = ({navigation}: any) => {
       if (userInfo.password == userInfo.confirm) {
         const res: any = await createUser(userInfo.email, userInfo.password);
         if (res?.user?.uid) {
-          setItem('UID', res?.user?.uid);
+          userCollection.doc(res?.user?.uid).set({
+            createdAt: new Date(),
+            email: res?.user?.email,
+            uid: res?.user?.uid,
+            loginTime: {},
+          });
+
           setUserInfo({
             email: '',
             password: '',
@@ -50,7 +56,6 @@ const SignUp = ({navigation}: any) => {
           });
           errTime();
         }
-        console.log(res, 'ressss');
       } else {
         setIsLoading(false);
         setUserInfo({

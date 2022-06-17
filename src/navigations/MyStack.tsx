@@ -1,19 +1,19 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Home from '../screens/Home';
+import Chats from '../screens/Chats';
 
 const Stack = createStackNavigator();
 
-function MyStack({isLogIn}: any) {
+function MyStack() {
   return (
-    <Stack.Navigator initialRouteName={isLogIn ? 'Home' : 'Login'}>
+    <Stack.Navigator>
+      <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Login">
-        {() => <Login isLogIn={isLogIn} />}
-      </Stack.Screen>
       <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="Chats" component={Chats} />
     </Stack.Navigator>
   );
 }

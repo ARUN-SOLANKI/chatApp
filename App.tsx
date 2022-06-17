@@ -5,24 +5,10 @@ import MyStack from './src/navigations/MyStack';
 import {getItem} from './src/utils/AsyncStorage';
 
 const App = () => {
-  const [isLogIn, setIsLogIn] = useState<any>('');
-  useEffect(() => {
-    IsuserLogIn();
-  }, []);
-
-  const IsuserLogIn = async () => {
-    const res: any = await getItem('UID');
-    if (res) {
-      setIsLogIn(res);
-    }
-  };
-
-  console.log(isLogIn, 'setIsLogIn --------------->');
-
   return (
     <SafeAreaView style={{flex: 1}}>
       <NavigationContainer>
-        <MyStack isLogIn={isLogIn} />
+        <MyStack />
       </NavigationContainer>
     </SafeAreaView>
   );
