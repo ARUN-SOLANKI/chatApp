@@ -1,14 +1,18 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
-import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
+import React, {useState, useEffect} from 'react';
+import {
+  FlatList,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 import ChatComponents from '../components/ChatComponents';
 import firestore from '@react-native-firebase/firestore';
 const chatCollection = firestore().collection('chats');
 
 const Chats = ({navigation, route}: any) => {
   const [chatValue, setChatValue] = useState('');
+  const [chats, setChats] = useState<any>([]);
   const {sender, receiver, connectedId} = route.params;
-  console.log(connectedId);
 
   const handleSend = async () => {
     if (chatValue) {
@@ -19,16 +23,37 @@ const Chats = ({navigation, route}: any) => {
         receivermail: receiver.email,
         title: chatValue,
         createAt: new Date(),
+        connectedId: connectedId,
       });
 
       setChatValue('');
     }
   };
 
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('chats')
+      .doc(connectedId)
+      .collection('messages')
+      .onSnapshot(documentSnapshot => {
+        const dataaaa = documentSnapshot.docs.map(item => item.data());
+        setChats(dataaaa);
+      });
+    // Stop listening for updates when no longer required
+    return () => subscriber();
+  }, []);
+
   return (
     <View style={styles.chatContainer}>
       <>
-        <ChatComponents />
+        <FlatList
+          data={chats}
+          renderItem={({item}) => {
+            return (
+              <ChatComponents item={item} receiver={receiver} sender={sender} />
+            );
+          }}
+        />
       </>
       <View style={styles.inputContainer}>
         <TextInput

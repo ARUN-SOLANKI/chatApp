@@ -1,24 +1,19 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-const ChatComponents = () => {
+const ChatComponents = ({item, receiver, sender}: any) => {
+  console.log(item, receiver, sender, 'item here');
   return (
     <View style={styles.messageContainer}>
-      <View style={styles.message}>
-        <Text style={styles.messageText}>kvbsknvsdmnvdk,</Text>
-      </View>
-      <View style={styles.message}>
-        <Text style={styles.messageText}>kvbsknvsdmnvdk,</Text>
-      </View>
-      <View style={styles.message}>
-        <Text style={styles.messageText}>kvbsknvsdmnvdk,</Text>
-      </View>
-      <View style={styles.message}>
-        <Text style={styles.messageText}>kvbsknvsdmnvdk,</Text>
-      </View>
-      <View style={styles.message}>
-        <Text style={styles.messageText}>kvbsknvsdmnvdk,</Text>
-      </View>
+      {sender.uid == item.senderId ? (
+        <Pressable style={styles.message}>
+          <Text style={styles.messageText}>{item.title}</Text>
+        </Pressable>
+      ) : (
+        <Pressable style={styles.message1}>
+          <Text style={styles.messageText}>{item.title}</Text>
+        </Pressable>
+      )}
     </View>
   );
 };
@@ -44,5 +39,8 @@ const styles = StyleSheet.create({
   messageText: {
     color: 'red',
     fontSize: 18,
+  },
+  message1: {
+    backgroundColor: 'red',
   },
 });

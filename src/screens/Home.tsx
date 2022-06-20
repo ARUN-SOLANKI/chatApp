@@ -42,7 +42,7 @@ const Home = ({navigation}: Props) => {
       .collection(collectionName.uid)
       .doc()
       .set({
-        name: 'bhenchod',
+        name: 'ksabcjabsk',
       });
   };
 
