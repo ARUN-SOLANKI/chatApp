@@ -5,7 +5,7 @@ const ChatComponents = ({item, receiver, sender}: any) => {
   console.log(item, receiver, sender, 'item here');
   return (
     <View style={styles.messageContainer}>
-      {sender.uid == item.senderId ? (
+      {sender.uid !== item.senderId ? (
         <Pressable style={styles.message}>
           <Text style={styles.messageText}>{item.title}</Text>
         </Pressable>
@@ -41,9 +41,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   message1: {
-    backgroundColor: 'red',
+    display: 'flex',
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
+    backgroundColor: '#dfde33',
+    width: '75%',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginVertical: 10,
+    borderBottomStartRadius: 10,
+    borderTopStartRadius: 10,
   },
   messageText1: {
     color: '#fff',
+    fontSize: 18,
   },
 });
