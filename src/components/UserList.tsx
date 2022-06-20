@@ -5,6 +5,7 @@ import firestore from '@react-native-firebase/firestore';
 const chatCollection = firestore().collection('chats');
 
 const UserList = ({item, collectionName, navigation}: any) => {
+  console.log(item);
   const addChat = async (item: any) => {
     const connectedId =
       collectionName.uid > item.uid
@@ -24,7 +25,9 @@ const UserList = ({item, collectionName, navigation}: any) => {
         <TouchableOpacity
           style={styles.userListBtn}
           onPress={() => addChat(item)}>
-          <Text style={styles.userListText}>{item.email}</Text>
+          <Text style={styles.userListText}>
+            {item.userName ? item.userName : item.email}
+          </Text>
         </TouchableOpacity>
       )}
     </View>

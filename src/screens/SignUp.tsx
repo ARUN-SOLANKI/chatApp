@@ -21,6 +21,7 @@ type Proptype = {
 
 const SignUp = ({navigation}: Proptype) => {
   const [userInfo, setUserInfo] = useState<userInfoType>({
+    name: '',
     email: '',
     password: '',
     confirm: '',
@@ -29,7 +30,12 @@ const SignUp = ({navigation}: Proptype) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const SignUp = async () => {
-    if (userInfo.email && userInfo.password && userInfo.confirm) {
+    if (
+      userInfo.email &&
+      userInfo.password &&
+      userInfo.confirm &&
+      userInfo.name
+    ) {
       setIsLoading(true);
       if (userInfo.password == userInfo.confirm) {
         const res: any = await createUser(userInfo.email, userInfo.password);
@@ -39,6 +45,7 @@ const SignUp = ({navigation}: Proptype) => {
             email: res?.user?.email,
             uid: res?.user?.uid,
             loginTime: {},
+            userName: userInfo.name,
           });
 
           setUserInfo({
@@ -46,6 +53,7 @@ const SignUp = ({navigation}: Proptype) => {
             password: '',
             confirm: '',
             error: '',
+            name: '',
           });
           setIsLoading(false);
         } else {
@@ -93,6 +101,13 @@ const SignUp = ({navigation}: Proptype) => {
       <View style={styles.loginContainer}>
         <Text style={styles.header}>Welcome !</Text>
 
+        <TextInput
+          placeholder="Enter You Name"
+          placeholderTextColor="#577072"
+          style={styles.textInput}
+          value={userInfo.name}
+          onChangeText={e => UserInfo('name', e)}
+        />
         <TextInput
           keyboardType="email-address"
           placeholder="Enter You Email"

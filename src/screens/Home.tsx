@@ -6,6 +6,7 @@ import {getItem} from '../utils/AsyncStorage';
 
 import firestore from '@react-native-firebase/firestore';
 import UserList from '../components/UserList';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 const userCollection = firestore().collection('users');
 const chatCollection = firestore().collection('chats');
 
@@ -36,16 +37,6 @@ const Home = ({navigation}: Props) => {
     }
   };
 
-  const addCOllection = () => {
-    chatCollection
-      .doc(collectionName.email)
-      .collection(collectionName.uid)
-      .doc()
-      .set({
-        name: 'ksabcjabsk',
-      });
-  };
-
   function onResult(QuerySnapshot: any) {
     const newArr: any = [];
     QuerySnapshot._docs.forEach((item: any) => {
@@ -60,9 +51,20 @@ const Home = ({navigation}: Props) => {
 
   return (
     <View style={{flex: 1}}>
-      <Text>{collectionName.email}</Text>
-      <Button title="Logout" onPress={clearAll} />
-      {/* <Chats /> */}
+      {userList?.map(item => {
+        return (
+          item.uid == collectionName.uid && (
+            <View style={styles.logoutContainer}>
+              <Text style={styles.ProileName}>
+                {item.uid == collectionName.uid ? item.userName : item.email}
+              </Text>
+              <TouchableOpacity onPress={clearAll} style={styles.LogoutBtn}>
+                <Text style={styles.LogoutBtnText}>Logout</Text>
+              </TouchableOpacity>
+            </View>
+          )
+        );
+      })}
       <FlatList
         data={userList}
         renderItem={({item}) => {
@@ -81,4 +83,26 @@ const Home = ({navigation}: Props) => {
 
 export default Home;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  logoutContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+  },
+  LogoutBtn: {
+    backgroundColor: '#dfde33',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+  },
+  LogoutBtnText: {
+    fontSize: 16,
+    color: '#fff',
+  },
+  ProileName: {
+    fontSize: 20,
+    color: '#dfde33',
+  },
+});

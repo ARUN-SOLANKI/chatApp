@@ -1,6 +1,7 @@
 export type stringNullType = string | null;
 
 export type userInfoType = {
+  name?: string;
   email: string;
   password: string;
   confirm?: string;
