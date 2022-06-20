@@ -7,6 +7,7 @@ const ChatComponents = ({item, receiver, sender}: any) => {
       {sender.uid !== item.senderId ? (
         <Pressable style={styles.message}>
           <Text style={styles.messageText}>{item.title}</Text>
+          <Text style={{color: '#000'}}>{item.createAt}</Text>
         </Pressable>
       ) : (
         <Pressable style={styles.message1}>
