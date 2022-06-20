@@ -5,7 +5,7 @@ const Header = ({receiver}: any) => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.Img}></View>
-      <Text style={styles.headerName}>{receiver.email}</Text>
+      <Text style={styles.headerName}>{receiver.name}</Text>
     </View>
   );
 };

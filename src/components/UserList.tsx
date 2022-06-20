@@ -14,7 +14,7 @@ const UserList = ({item, collectionName, navigation}: any) => {
     // chatCollection.doc(connectuid).set({ids: [collectionName.uid, item.uid]});
     navigation.navigate('Chats', {
       sender: collectionName,
-      receiver: {uid: item?.uid, email: item?.email},
+      receiver: {uid: item?.uid, email: item?.email, name: item?.userName},
       connectedId: connectedId,
     });
   };
