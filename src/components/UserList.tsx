@@ -5,7 +5,6 @@ import firestore from '@react-native-firebase/firestore';
 const chatCollection = firestore().collection('chats');
 
 const UserList = ({item, collectionName, navigation}: any) => {
-  console.log(item);
   const addChat = async (item: any) => {
     const connectedId =
       collectionName.uid > item.uid
