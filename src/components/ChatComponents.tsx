@@ -11,7 +11,7 @@ const ChatComponents = ({item, receiver, sender}: any) => {
         </Pressable>
       ) : (
         <Pressable style={styles.message1}>
-          <Text style={styles.messageText}>{item.title}</Text>
+          <Text style={styles.messageText1}>{item.title}</Text>
         </Pressable>
       )}
     </View>
@@ -42,5 +42,8 @@ const styles = StyleSheet.create({
   },
   message1: {
     backgroundColor: 'red',
+  },
+  messageText1: {
+    color: '#fff',
   },
 });
