@@ -13,7 +13,11 @@ function MyStack() {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="Chats" component={Chats} />
+      <Stack.Screen
+        name="Chats"
+        component={Chats}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 }

@@ -9,6 +9,7 @@ import ChatComponents from '../components/ChatComponents';
 import firestore from '@react-native-firebase/firestore';
 const chatCollection = firestore().collection('chats');
 import _ from 'underscore';
+import Header from '../components/Header';
 
 const Chats = ({navigation, route}: any) => {
   const [chatValue, setChatValue] = useState('');
@@ -50,6 +51,7 @@ const Chats = ({navigation, route}: any) => {
 
   return (
     <View style={styles.chatContainer}>
+      <Header receiver={receiver} />
       <>
         <FlatList
           data={chats}
