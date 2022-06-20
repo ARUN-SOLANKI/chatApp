@@ -11,7 +11,6 @@ const UserList = ({item, collectionName, navigation}: any) => {
         ? collectionName.uid + item.uid
         : item.uid + collectionName.uid;
     // chatCollection.doc(connectuid).set({ids: [collectionName.uid, item.uid]});
-
     navigation.navigate('Chats', {
       sender: collectionName,
       receiver: {uid: item?.uid, email: item?.email},
@@ -20,9 +19,15 @@ const UserList = ({item, collectionName, navigation}: any) => {
   };
 
   return (
-    <TouchableOpacity style={styles.userListBtn} onPress={() => addChat(item)}>
-      <Text style={styles.userListText}>{item.email}</Text>
-    </TouchableOpacity>
+    <View>
+      {collectionName.uid !== item.uid && (
+        <TouchableOpacity
+          style={styles.userListBtn}
+          onPress={() => addChat(item)}>
+          <Text style={styles.userListText}>{item.email}</Text>
+        </TouchableOpacity>
+      )}
+    </View>
   );
 };
 
