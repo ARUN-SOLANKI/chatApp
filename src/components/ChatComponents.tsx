@@ -2,16 +2,19 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
 const ChatComponents = ({item, receiver, sender}: any) => {
-  console.log(item, receiver, sender, 'item here');
+  console.log(item.createAt, 'item here');
   return (
     <View style={styles.messageContainer}>
-      {sender.uid == item.senderId ? (
+      {sender.uid !== item.senderId ? (
         <Pressable style={styles.message}>
           <Text style={styles.messageText}>{item.title}</Text>
         </Pressable>
       ) : (
         <Pressable style={styles.message1}>
-          <Text style={styles.messageText1}>{item.title}</Text>
+          <View>
+            <Text style={styles.messageText1}>{item.title}</Text>
+            <Text style={{color: '#000'}}>{item.createAt}</Text>
+          </View>
         </Pressable>
       )}
     </View>

@@ -8,6 +8,7 @@ import {
 import ChatComponents from '../components/ChatComponents';
 import firestore from '@react-native-firebase/firestore';
 const chatCollection = firestore().collection('chats');
+import _ from 'underscore';
 
 const Chats = ({navigation, route}: any) => {
   const [chatValue, setChatValue] = useState('');
@@ -22,7 +23,7 @@ const Chats = ({navigation, route}: any) => {
         recieverId: receiver.uid,
         receivermail: receiver.email,
         title: chatValue,
-        createAt: new Date(),
+        createAt: new Date().toLocaleString(),
         connectedId: connectedId,
       });
 
@@ -37,7 +38,10 @@ const Chats = ({navigation, route}: any) => {
       .collection('messages')
       .onSnapshot(documentSnapshot => {
         const dataaaa = documentSnapshot.docs.map(item => item.data());
-        setChats(dataaaa);
+        const sortedData = _.sortBy(dataaaa, (item: any) => {
+          return item.createAt;
+        });
+        setChats(sortedData);
       });
     // Stop listening for updates when no longer required
     return () => subscriber();
