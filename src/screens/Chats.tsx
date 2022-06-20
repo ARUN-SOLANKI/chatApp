@@ -84,24 +84,16 @@ export default Chats;
 const styles = StyleSheet.create({
   chatContainer: {
     flex: 1,
-    borderWidth: 2,
     justifyContent: 'space-between',
   },
   inputContainer: {
-    // flex: 1,
-    // width: '100%',
-    // height: 50,
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    // marginHorizontal: 10,
     alignSelf: 'flex-end',
-
-    // justifyContent: 'space-between',
   },
   chatInputs: {
     flex: 1,
-
     width: '50%',
     height: 50,
   },
@@ -110,7 +102,6 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     paddingHorizontal: 10,
-    // width: '30%',
   },
   sendButtonText: {
     color: '#fff',
