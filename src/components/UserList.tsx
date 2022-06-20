@@ -6,12 +6,16 @@ const chatCollection = firestore().collection('chats');
 
 const UserList = ({item, collectionName, navigation}: any) => {
   const addChat = async (item: any) => {
-    chatCollection
-      .doc(collectionName.uid)
-      .set({ids: [collectionName.uid, item.uid]});
+    const connectedId =
+      collectionName.uid > item.uid
+        ? collectionName.uid + item.uid
+        : item.uid + collectionName.uid;
+    // chatCollection.doc(connectuid).set({ids: [collectionName.uid, item.uid]});
+
     navigation.navigate('Chats', {
       sender: collectionName,
       receiver: {uid: item?.uid, email: item?.email},
+      connectedId: connectedId,
     });
   };
 

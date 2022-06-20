@@ -19,21 +19,6 @@ const ChatComponents = () => {
       <View style={styles.message}>
         <Text style={styles.messageText}>kvbsknvsdmnvdk,</Text>
       </View>
-      <View style={styles.message}>
-        <Text style={styles.messageText}>kvbsknvsdmnvdk,</Text>
-      </View>
-      <View style={styles.message}>
-        <Text style={styles.messageText}>kvbsknvsdmnvdk,</Text>
-      </View>
-      <View style={styles.message}>
-        <Text style={styles.messageText}>kvbsknvsdmnvdk,</Text>
-      </View>
-      <View style={styles.message}>
-        <Text style={styles.messageText}>kvbsknvsdmnvdk,</Text>
-      </View>
-      <View style={styles.message}>
-        <Text style={styles.messageText}>kvbsknvsdmnvdk,</Text>
-      </View>
     </View>
   );
 };
@@ -48,11 +33,13 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   message: {
-    backgroundColor: 'yellow',
+    backgroundColor: '#dadada',
     width: '75%',
     paddingHorizontal: 10,
     paddingVertical: 5,
     marginVertical: 10,
+    borderBottomEndRadius: 10,
+    borderTopEndRadius: 10,
   },
   messageText: {
     color: 'red',

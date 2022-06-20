@@ -1,4 +1,4 @@
-import {StyleSheet, Button, View, FlatList} from 'react-native';
+import {StyleSheet, Button, View, FlatList, Text} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {navigationPropType} from '../utils/Types';
 import React, {useEffect, useState} from 'react';
@@ -60,6 +60,7 @@ const Home = ({navigation}: Props) => {
 
   return (
     <View style={{flex: 1}}>
+      <Text>{collectionName.email}</Text>
       <Button title="Logout" onPress={clearAll} />
       {/* <Chats /> */}
       <FlatList
