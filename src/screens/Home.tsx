@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: '#fff',
     alignItems: 'center',
+    height: 50,
   },
   LogoutBtn: {
     backgroundColor: '#dfde33',
