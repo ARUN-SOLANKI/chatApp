@@ -14,7 +14,7 @@ import Header from '../components/Header';
 const Chats = ({navigation, route}: any) => {
   const [chatValue, setChatValue] = useState('');
   const [chats, setChats] = useState<any>([]);
-  const {sender, receiver, connectedId} = route.params;
+  const {sender, receiver, connectedId} = route?.params;
 
   const handleSend = async () => {
     if (chatValue) {
@@ -51,7 +51,7 @@ const Chats = ({navigation, route}: any) => {
 
   return (
     <View style={styles.chatContainer}>
-      <Header receiver={receiver} />
+      <Header receiver={receiver} navigation={navigation} />
       <>
         <FlatList
           data={chats}

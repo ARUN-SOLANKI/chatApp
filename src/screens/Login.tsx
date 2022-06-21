@@ -60,7 +60,7 @@ const Login = ({navigation}: Proptype) => {
           password: '',
           error: '',
         });
-        navigation.navigate('Home');
+        navigation.navigate('MyTabs');
       } else {
         setIsLoading(false);
         setUserInfo({
