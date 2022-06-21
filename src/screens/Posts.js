@@ -1,10 +1,19 @@
 import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
 import React from 'react';
 
 const Posts = () => {
   return (
     <View style={styles.PostContainer}>
-      <TouchableOpacity style={styles.postBtn}>
+      <TouchableOpacity
+        style={styles.postBtn}
+        onPress={() => {
+          ImagePicker.openPicker({
+            mediaType: 'video',
+          }).then(video => {
+            console.log(video);
+          });
+        }}>
         <Text style={styles.postBtnText}>Add Post</Text>
       </TouchableOpacity>
     </View>
