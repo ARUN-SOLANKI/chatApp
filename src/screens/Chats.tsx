@@ -45,7 +45,6 @@ const Chats = ({navigation, route}: any) => {
 
         setChats(sortedData);
       });
-    // Stop listening for updates when no longer required
     return () => subscriber();
   }, []);
 
