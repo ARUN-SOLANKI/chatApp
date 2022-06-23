@@ -14,29 +14,29 @@ import userIcon from '../assets/userIcon.png';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const userCollection = firestore().collection('users');
 
-const Profile = ({navigation}: any) => {
+const Profile = ({navigation}) => {
   const [collectionName, setCollectionName] = useState({});
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
     const getcollection = async () => {
-      const res: any = await getItem('EMAIL');
-      const res1: any = await getItem('UID');
+      const res = await getItem('EMAIL');
+      const res1 = await getItem('UID');
       setCollectionName({email: res, uid: res1});
     };
     getcollection();
     userCollection.onSnapshot(onResult, onError);
   }, []);
 
-  function onResult(QuerySnapshot: any) {
-    const newArr: any = [];
-    QuerySnapshot._docs.forEach((item: any) => {
+  function onResult(QuerySnapshot) {
+    const newArr = [];
+    QuerySnapshot._docs.forEach((item) => {
       newArr.push(item._data);
     });
     setUserList(newArr);
   }
 
-  function onError(error: Error) {
+  function onError(error) {
     console.error(error);
   }
 
