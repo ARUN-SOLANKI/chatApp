@@ -17,11 +17,20 @@ function MyTabs() {
           color: '#dfde33',
           letterSpacing: 2,
         },
-        // tabBarItemStyle: {width: 100},
+
         tabBarStyle: {backgroundColor: '#577072'},
+        tabBarPressColor: 'red',
         tabBarIndicatorStyle: {
-          color: '#fff',
+          backgroundColor: '#fff',
+          height: 2,
         },
+        tabBarLabelStyle: {
+          fontSize: 14,
+          color: '#fff',
+          fontWeight: '500',
+        },
+        tabBarActiveColor: 'red',
+        tabBarInactiveTintColor: 'red',
       }}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Posts" component={Posts} />

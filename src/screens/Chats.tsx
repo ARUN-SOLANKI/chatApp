@@ -42,7 +42,6 @@ const Chats = ({navigation, route}: any) => {
         const sortedData = _.sortBy(dataaaa, (item: any) => {
           return item.createAt;
         });
-
         setChats(sortedData);
       });
     return () => subscriber();

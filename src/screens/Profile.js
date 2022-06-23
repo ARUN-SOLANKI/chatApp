@@ -1,4 +1,12 @@
-import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  FlatList,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {getItem} from '../utils/AsyncStorage';
@@ -14,7 +22,6 @@ const Profile = ({navigation}: any) => {
     const getcollection = async () => {
       const res: any = await getItem('EMAIL');
       const res1: any = await getItem('UID');
-
       setCollectionName({email: res, uid: res1});
     };
     getcollection();
@@ -78,10 +85,43 @@ const Profile = ({navigation}: any) => {
             )
           );
         })}
+        <TouchableOpacity onPress={clearAll} style={styles.LogoutBtn}>
+          <Text style={styles.LogoutBtnText}>Logout</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={clearAll} style={styles.LogoutBtn}>
-        <Text style={styles.LogoutBtnText}>Logout</Text>
-      </TouchableOpacity>
+      <Text style={{textAlign: 'center', fontSize: 25}}>
+        All Your Post Here
+      </Text>
+      <ScrollView>
+        <View>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              width: '100%',
+              marginBottom: 20,
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100%',
+            }}>
+            {[
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+              20,
+            ].map(item => {
+              return (
+                <View
+                  style={{
+                    width: 100,
+                    height: 100,
+                    backgroundColor: 'red',
+                    margin: 10,
+                  }}></View>
+              );
+            })}
+          </View>
+        </View>
+      </ScrollView>
     </View>
   );
 };
