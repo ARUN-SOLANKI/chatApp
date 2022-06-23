@@ -58,7 +58,7 @@ const Posts = () => {
     };
     getcollection();
     geturls();
-  }, [post]);
+  }, [UserInfo.uid]);
 
   const geturls = async () => {
     PostCollection.doc(UserInfo.uid)
