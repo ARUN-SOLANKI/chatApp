@@ -13,9 +13,11 @@ import {getItem} from '../utils/AsyncStorage';
 import userIcon from '../assets/userIcon.png';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const userCollection = firestore().collection('users');
+const postCollection = firestore().collection('Posts');
 
 const Profile = ({navigation}) => {
   const [collectionName, setCollectionName] = useState({});
+  const [post, setPosts] = useState([]);
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
@@ -30,7 +32,7 @@ const Profile = ({navigation}) => {
 
   function onResult(QuerySnapshot) {
     const newArr = [];
-    QuerySnapshot._docs.forEach((item) => {
+    QuerySnapshot._docs.forEach(item => {
       newArr.push(item._data);
     });
     setUserList(newArr);
@@ -48,6 +50,20 @@ const Profile = ({navigation}) => {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    const subscriber = postCollection
+      .doc(collectionName.uid)
+      .collection('post')
+      .onSnapshot(documentSnapshot => {
+        const dataaaa = documentSnapshot.docs.map(item => {
+          console.log(item, 'iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+          return item.data();
+        });
+        setPosts(dataaaa);
+      });
+    return () => subscriber();
+  }, [collectionName.uid]);
 
   return (
     <View style={styles.profileContainer}>
@@ -105,18 +121,20 @@ const Profile = ({navigation}) => {
               alignItems: 'center',
               height: '100%',
             }}>
-            {[
-              1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-              20,
-            ].map(item => {
+            {post?.map(item => {
               return (
                 <View
                   style={{
                     width: 100,
                     height: 100,
-                    backgroundColor: 'red',
+                    // backgroundColor: 'red',
                     margin: 10,
-                  }}></View>
+                  }}>
+                  <Image
+                    source={{uri: item.imageUrl}}
+                    style={{width: 100, height: 100}}
+                  />
+                </View>
               );
             })}
           </View>
@@ -147,6 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#dfde33',
     paddingVertical: 10,
     paddingHorizontal: 10,
+    marginVertical: 15,
   },
   LogoutBtnText: {
     fontSize: 16,
