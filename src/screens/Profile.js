@@ -57,7 +57,6 @@ const Profile = ({navigation}) => {
       .collection('post')
       .onSnapshot(documentSnapshot => {
         const dataaaa = documentSnapshot.docs.map(item => {
-          console.log(item, 'iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
           return item.data();
         });
         setPosts(dataaaa);
