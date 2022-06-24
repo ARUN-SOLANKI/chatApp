@@ -61,49 +61,28 @@ const Posts = () => {
   useEffect(
     () => {
       getdataftat();
-      // .onSnapshot(documentSnapshot => {
-      //   const dataaaa = documentSnapshot.docs.map(item => {
-      //     console.log(item, 'iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
-      //     return item.data();
-      //   });
-      //   console.log(dataaaa, 'dataaaadataaaadataaaadataaaa');
-      // })
-      // return () => subscriber();
     },
     [UserInfo.uid]
   );
 
   const getdataftat = async () => {
-    const pushedData = [];
-    const subscriber = await firestore().collection("Posts").get();
-    const hirosima = subscriber._docs.map(documentSnapshot => {
-      let ref = documentSnapshot._docs.map(item => {
-        return {
-          data: item._data,
-          id: item.id
-        };
-      });
-      const data = ref.map(async item => {
-        const data1 = await PostCollection.doc(item.id)
-          .collection("post")
-          .get();
-        const innerData = data1._docs.map(data => {
-          return data._data;
+    const newData = [];
+    const subscriber = await PostCollection.get();
+    const data = subscriber._docs.map(item => item.id);
+    for (const post of data) {
+      try {
+        const postRef = await PostCollection.doc(post).collection("post").get();
+        postRef._docs.forEach(item => {
+          return newData.push(item._data);
         });
-        return innerData;
-      });
-      data.map(item => {
-        item.then(res => {
-          console.log(res, "res");
-          pushedData.push(res);
-        });
-      });
-    });
-
-    setData(pushedData);
+        setData(newData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
-  console.log(Data, "qwertyuiopp , final data ");
+  console.log(Data, "----------------------");
 
   return (
     <View style={styles.PostContainer}>

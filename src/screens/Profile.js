@@ -80,10 +80,10 @@ const Profile = ({navigation}) => {
             }}
           />
         </TouchableOpacity>
-        {userList?.map(item => {
+        {userList?.map((item, i) => {
           return (
             item.uid == collectionName.uid && (
-              <View style={styles.logoutContainer}>
+              <View style={styles.logoutContainer} key={i}>
                 <View style={styles.nameContainer}>
                   <Text style={styles.headerName}>Name :- </Text>
                   <Text style={styles.ProileName}>
@@ -120,7 +120,7 @@ const Profile = ({navigation}) => {
               alignItems: 'center',
               height: '100%',
             }}>
-            {post?.map(item => {
+            {post?.map((item, i) => {
               return (
                 <View
                   style={{
@@ -128,7 +128,8 @@ const Profile = ({navigation}) => {
                     height: 100,
                     // backgroundColor: 'red',
                     margin: 10,
-                  }}>
+                  }}
+                  key={i}>
                   <Image
                     source={{uri: item.imageUrl}}
                     style={{width: 100, height: 100}}
