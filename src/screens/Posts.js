@@ -22,6 +22,7 @@ const Posts = () => {
     uid: '',
   });
   const [Data, setData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   const AddPost = async () => {
     try {
       const image = await ImagePicker.openPicker({
@@ -81,6 +82,13 @@ const Posts = () => {
       }
     }
   };
+  const handleRefresh = () => {
+    setRefreshing(true);
+    getdataftat();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
 
   return (
     <View style={styles.PostContainer}>
@@ -89,6 +97,8 @@ const Posts = () => {
         renderItem={({item}) => {
           return <PostComponent item={item} />;
         }}
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
       />
     </View>
   );
