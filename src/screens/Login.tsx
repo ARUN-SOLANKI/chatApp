@@ -86,7 +86,7 @@ const Login = ({navigation}: Proptype) => {
   const IsuserLogIn = async () => {
     const res = await getItem('UID');
     if (res) {
-      navigation.navigate('Home');
+      navigation.navigate('MyTabs');
     }
   };
 
