@@ -14,7 +14,7 @@ const AddPostBtn = ({btnPosition = {}}) => {
   const AddPost = async () => {
     try {
       const image = await ImagePicker.openPicker({
-        mediaType: 'any',
+        mediaType: 'photo',
       });
       let fileNameArray = image.path.split('/');
       let fileName = `${fileNameArray[fileNameArray.length - 1]}`;
