@@ -14,6 +14,7 @@ import React, { useState, useEffect } from "react";
 import { getItem } from "../utils/AsyncStorage";
 import _ from "underscore";
 import PostComponent from "../components/PostComponent";
+import { useFocusEffect } from "@react-navigation/native";
 const PostCollection = firestore().collection("Posts");
 
 const Posts = () => {
