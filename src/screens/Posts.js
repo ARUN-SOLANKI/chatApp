@@ -19,9 +19,7 @@ const Posts = () => {
     email: "",
     uid: ""
   });
-  const [post, setPosts] = useState([]);
-  const [urls, setUrls] = useState([]);
-
+  const [Data, setData] = useState([]);
   const AddPost = async () => {
     try {
       const image = await ImagePicker.openPicker({
@@ -29,11 +27,13 @@ const Posts = () => {
       });
       let fileNameArray = image.path.split("/");
       let fileName = `${fileNameArray[fileNameArray.length - 1]}`;
-      // const reference = storage().ref(`${UserInfo.uid}/${fileName}`);
       const reference = storage().ref(`${fileName}`);
-      console.log(image, "vdfasdbj");
       let task = await reference.putFile(image.path);
       const url = await storage().ref(fileName).getDownloadURL();
+      PostCollection.doc(UserInfo.uid).set({
+        email: UserInfo.email,
+        uid: UserInfo.uid
+      });
       const PostCollectionRef = PostCollection.doc(UserInfo.uid)
         .collection("post")
         .doc()
@@ -44,7 +44,6 @@ const Posts = () => {
           task: task.metadata,
           imageUrl: url
         });
-      console.log(task, "------------->image");
     } catch (error) {
       console.log(error);
     }
@@ -57,29 +56,60 @@ const Posts = () => {
       setUserInfo({ email: res, uid: res1 });
     };
     getcollection();
-    geturls();
-  }, [UserInfo.uid]);
+  }, []);
 
-  const geturls = async () => {
-    PostCollection.doc(UserInfo.uid)
-      .collection("post")
-      .onSnapshot(documentSnapshot => {
-        const data = documentSnapshot.docs.map(item => item.data());
-        setPosts(data);
+  useEffect(
+    () => {
+      getdataftat();
+      // .onSnapshot(documentSnapshot => {
+      //   const dataaaa = documentSnapshot.docs.map(item => {
+      //     console.log(item, 'iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+      //     return item.data();
+      //   });
+      //   console.log(dataaaa, 'dataaaadataaaadataaaadataaaa');
+      // })
+      // return () => subscriber();
+    },
+    [UserInfo.uid]
+  );
+
+  const getdataftat = async () => {
+    const pushedData = [];
+    const subscriber = await firestore().collection("Posts").get();
+    const hirosima = subscriber._docs.map(documentSnapshot => {
+      let ref = documentSnapshot._docs.map(item => {
+        return {
+          data: item._data,
+          id: item.id
+        };
       });
+      const data = ref.map(async item => {
+        const data1 = await PostCollection.doc(item.id)
+          .collection("post")
+          .get();
+        const innerData = data1._docs.map(data => {
+          return data._data;
+        });
+        return innerData;
+      });
+      data.map(item => {
+        item.then(res => {
+          console.log(res, "res");
+          pushedData.push(res);
+        });
+      });
+    });
+
+    setData(pushedData);
   };
 
-  console.log(post, "postpostpostpostpostpostpostpostpostpost");
+  console.log(Data, "qwertyuiopp , final data ");
+
   return (
     <View style={styles.PostContainer}>
-      <TouchableOpacity style={styles.postBtn} onPress={AddPost}>
+      {/* <TouchableOpacity style={styles.postBtn} onPress={AddPost}>
         <Text style={styles.postBtnText}>Add Post</Text>
-      </TouchableOpacity>
-      {post?.map(item =>
-        <TouchableOpacity style={{width:150 , height:150}}>
-          <Image source={{uri : item?.imageUrl}} style={{width:100, height:100}} />
-        </TouchableOpacity>
-      )}
+      </TouchableOpacity> */}
     </View>
   );
 };
