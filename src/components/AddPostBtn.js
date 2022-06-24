@@ -1,27 +1,16 @@
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Text,
-  DevSettings,
-  Image,
-  FlatList,
-} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+const PostCollection = firestore().collection('Posts');
 import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
-import React, {useState, useEffect} from 'react';
 import {getItem} from '../utils/AsyncStorage';
-import _ from 'underscore';
-import PostComponent from '../components/PostComponent';
-const PostCollection = firestore().collection('Posts');
+import React, {useState, useEffect} from 'react';
 
-const Posts = () => {
+const AddPostBtn = ({btnPosition = {}}) => {
   const [UserInfo, setUserInfo] = useState({
     email: '',
     uid: '',
   });
-  const [Data, setData] = useState([]);
   const AddPost = async () => {
     try {
       const image = await ImagePicker.openPicker({
@@ -60,44 +49,27 @@ const Posts = () => {
     getcollection();
   }, []);
 
-  useEffect(() => {
-    getdataftat();
-  }, [UserInfo.uid]);
-
-  const getdataftat = async () => {
-    const newData = [];
-    const subscriber = await PostCollection.get();
-    const data = subscriber._docs.map(item => item.id);
-    for (const post of data) {
-      try {
-        const postRef = await PostCollection.doc(post).collection('post').get();
-        postRef._docs.forEach(item => {
-          return newData.push(item._data);
-        });
-        const sortedData = _.sortBy(newData, item => item.task.timeCreated);
-        setData(sortedData);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
   return (
-    <View style={styles.PostContainer}>
-      <FlatList
-        data={Data}
-        renderItem={({item}) => {
-          return <PostComponent item={item} />;
-        }}
-      />
-    </View>
+    <TouchableOpacity style={[styles.postBtn, btnPosition]} onPress={AddPost}>
+      <Text style={styles.postBtnText}>+</Text>
+    </TouchableOpacity>
   );
 };
 
-export default Posts;
+export default AddPostBtn;
 
 const styles = StyleSheet.create({
-  PostContainer: {
-    flex: 1,
+  postBtn: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#dfde33',
+    borderRadius: 25,
+    height: 50,
+    width: 50,
+  },
+  postBtnText: {
+    fontSize: 30,
+    color: '#fff',
   },
 });
