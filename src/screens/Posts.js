@@ -4,7 +4,8 @@ import {
   View,
   Text,
   DevSettings,
-  Image
+  Image,
+  FlatList
 } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
 import storage from "@react-native-firebase/storage";
@@ -12,6 +13,7 @@ import firestore from "@react-native-firebase/firestore";
 import React, { useState, useEffect } from "react";
 import { getItem } from "../utils/AsyncStorage";
 import _ from "underscore";
+import PostComponent from "../components/PostComponent";
 const PostCollection = firestore().collection("Posts");
 
 const Posts = () => {
@@ -20,6 +22,7 @@ const Posts = () => {
     uid: ""
   });
   const [Data, setData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   const AddPost = async () => {
     try {
       const image = await ImagePicker.openPicker({
@@ -75,20 +78,31 @@ const Posts = () => {
         postRef._docs.forEach(item => {
           return newData.push(item._data);
         });
-        setData(newData);
+        const sortedData = _.sortBy(newData, item => item.task.timeCreated);
+        setData(sortedData);
       } catch (error) {
         console.log(error);
       }
     }
   };
-
-  console.log(Data, "----------------------");
+  const handleRefresh = () => {
+    setRefreshing(true);
+    getdataftat();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
 
   return (
     <View style={styles.PostContainer}>
-      {/* <TouchableOpacity style={styles.postBtn} onPress={AddPost}>
-        <Text style={styles.postBtnText}>Add Post</Text>
-      </TouchableOpacity> */}
+      <FlatList
+        data={Data}
+        renderItem={({ item }) => {
+          return <PostComponent item={item} />;
+        }}
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
+      />
     </View>
   );
 };
@@ -97,17 +111,6 @@ export default Posts;
 
 const styles = StyleSheet.create({
   PostContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  postBtn: {
-    backgroundColor: "#dfde33",
-    padding: 15,
-    borderRadius: 5
-  },
-  postBtnText: {
-    fontSize: 20,
-    color: "#fff"
+    flex: 1
   }
 });

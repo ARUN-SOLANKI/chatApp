@@ -6,6 +6,7 @@ import {getItem} from '../utils/AsyncStorage';
 
 import firestore from '@react-native-firebase/firestore';
 import UserList from '../components/UserList';
+import AddPostBtn from '../components/AddPostBtn';
 const userCollection = firestore().collection('users');
 
 type Props = {
@@ -57,5 +58,3 @@ const Home = ({navigation}: Props) => {
 };
 
 export default Home;
-
-const styles = StyleSheet.create({});
