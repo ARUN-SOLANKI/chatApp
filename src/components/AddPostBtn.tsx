@@ -14,13 +14,13 @@ const AddPostBtn = ({btnPosition = {}}) => {
   const AddPost = async () => {
     try {
       const image = await ImagePicker.openPicker({
-        mediaType: 'photo',
+        mediaType: 'any',
       });
       let fileNameArray = image.path.split('/');
       let fileName = `${fileNameArray[fileNameArray.length - 1]}`;
-      const reference = storage().ref(`${fileName}`);
+      const reference = storage().ref(`videos/${fileName}`);
       let task = await reference.putFile(image.path);
-      const url = await storage().ref(fileName).getDownloadURL();
+      const url = await storage().ref(`${fileName}`).getDownloadURL();
       PostCollection.doc(UserInfo.uid).set({
         email: UserInfo.email,
         uid: UserInfo.uid,

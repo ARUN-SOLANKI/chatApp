@@ -1,8 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
-import React, {useEffect, useState} from 'react';
-import Home from '../screens/Home';
+import React from 'react';
 import Chats from '../screens/Chats';
 import MyTabs from './TopTabNavigators';
 
