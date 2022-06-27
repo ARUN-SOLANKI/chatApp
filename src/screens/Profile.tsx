@@ -59,17 +59,15 @@ const Profile = ({navigation}) => {
       .doc(collectionName.uid)
       .collection('post')
       .onSnapshot(documentSnapshot => {
-        const dataaaa = documentSnapshot.docs.map(item => {
+        const data = documentSnapshot.docs.map(item => {
           return item.data();
         });
-        setPosts(dataaaa);
+        setPosts(data);
       });
     return () => subscriber();
   }, [collectionName.uid]);
 
-
-  const addProfilePic = async () =>{
-    
+  const addProfilePic = async () => {
     try {
       const image = await ImagePicker.openPicker({
         mediaType: 'photo',
@@ -78,51 +76,50 @@ const Profile = ({navigation}) => {
       let fileName = `${fileNameArray[fileNameArray.length - 1]}`;
       const reference = storage().ref(`profileImages/${fileName}`);
       let task = await reference.putFile(image.path);
-      const url = await storage().ref(`profileImages/${fileName}`).getDownloadURL();
+      const url = await storage()
+        .ref(`profileImages/${fileName}`)
+        .getDownloadURL();
       userCollection.doc(collectionName.uid).update({
-        profilepic : url
+        profilepic: url,
       });
-      
     } catch (error) {
       console.log(error);
     }
-
-  }
+  };
   return (
     <View style={styles.profileContainer}>
       <View></View>
       <View style={styles.mainContent}>
-       
         {userList?.map((item, i) => {
           return (
             item.uid == collectionName.uid && (
               <>
-              <TouchableOpacity onPress={addProfilePic}>
-              <Image
-                source={item.profilepic ? {uri : item.profilepic} : userIcon}
-                style={{
-                  width: 100,
-                  height: 100,
-                  backgroundColor: '#fff',
-                  borderRadius: 50,
-                  marginVertical: 10,
-                }}
-              />
-            </TouchableOpacity>
-              <View style={styles.logoutContainer} key={i}>
-                <View style={styles.nameContainer}>
-                  <Text style={styles.headerName}>Name :- </Text>
-                  <Text style={styles.ProileName}>
-                    {item.uid == collectionName.uid
-                      ? item.userName
-                      : item.email}
-                  </Text>
+                <TouchableOpacity onPress={addProfilePic}>
+                  <Image
+                    source={item.profilepic ? {uri: item.profilepic} : userIcon}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      backgroundColor: '#fff',
+                      borderRadius: 50,
+                      marginVertical: 10,
+                    }}
+                  />
+                </TouchableOpacity>
+                <View style={styles.logoutContainer} key={i}>
+                  <View style={styles.nameContainer}>
+                    <Text style={styles.headerName}>Name :- </Text>
+                    <Text style={styles.ProileName}>
+                      {item.uid == collectionName.uid
+                        ? item.userName
+                        : item.email}
+                    </Text>
+                  </View>
+                  <View style={styles.nameContainer}>
+                    <Text style={styles.headerName}>EMAIl :- </Text>
+                    <Text style={styles.ProileName}>{item.email}</Text>
+                  </View>
                 </View>
-                <View style={styles.nameContainer}>
-                  <Text style={styles.headerName}>EMAIl :- </Text>
-                  <Text style={styles.ProileName}>{item.email}</Text>
-                </View>
-              </View>
               </>
             )
           );
