@@ -10,17 +10,18 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {createUser} from '../utils/firebase';
-import {setItem} from '../utils/AsyncStorage';
+import {signUpResInterface} from '../utils/Interfaces';
+import {userInfoType, navigationPropType} from '../utils/Types';
+import firestore from '@react-native-firebase/firestore';
+const userCollection = firestore().collection('users');
 
-type userInfoType = {
-  email: string;
-  password: string;
-  confirm: string;
-  error: string;
+type Proptype = {
+  navigation: navigationPropType;
 };
 
-const SignUp = ({navigation}: any) => {
+const SignUp = ({navigation}: Proptype) => {
   const [userInfo, setUserInfo] = useState<userInfoType>({
+    name: '',
     email: '',
     password: '',
     confirm: '',
@@ -29,17 +30,30 @@ const SignUp = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const SignUp = async () => {
-    if (userInfo.email && userInfo.password && userInfo.confirm) {
+    if (
+      userInfo.email &&
+      userInfo.password &&
+      userInfo.confirm &&
+      userInfo.name
+    ) {
       setIsLoading(true);
       if (userInfo.password == userInfo.confirm) {
         const res: any = await createUser(userInfo.email, userInfo.password);
         if (res?.user?.uid) {
-          setItem('UID', res?.user?.uid);
+          userCollection.doc(res?.user?.uid).set({
+            createdAt: new Date(),
+            email: res?.user?.email,
+            uid: res?.user?.uid,
+            loginTime: {},
+            userName: userInfo.name,
+          });
+
           setUserInfo({
             email: '',
             password: '',
             confirm: '',
             error: '',
+            name: '',
           });
           setIsLoading(false);
         } else {
@@ -50,7 +64,6 @@ const SignUp = ({navigation}: any) => {
           });
           errTime();
         }
-        console.log(res, 'ressss');
       } else {
         setIsLoading(false);
         setUserInfo({
@@ -88,6 +101,13 @@ const SignUp = ({navigation}: any) => {
       <View style={styles.loginContainer}>
         <Text style={styles.header}>Welcome !</Text>
 
+        <TextInput
+          placeholder="Enter You Name"
+          placeholderTextColor="#577072"
+          style={styles.textInput}
+          value={userInfo.name}
+          onChangeText={e => UserInfo('name', e)}
+        />
         <TextInput
           keyboardType="email-address"
           placeholder="Enter You Email"

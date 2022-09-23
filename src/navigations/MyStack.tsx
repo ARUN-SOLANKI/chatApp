@@ -2,17 +2,25 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import React from 'react';
-import Home from '../screens/Home';
+import Chats from '../screens/Chats';
+import MyTabs from './TopTabNavigators';
 
 const Stack = createStackNavigator();
 
-function MyStack({isLogIn}: any) {
+function MyStack() {
   return (
-    <Stack.Navigator initialRouteName={isLogIn ? 'Home' : 'Login'}>
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Login">
-        {() => <Login isLogIn={isLogIn} />}
-      </Stack.Screen>
+    <Stack.Navigator>
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen
+        name="MyTabs"
+        component={MyTabs}
+        options={{headerShown: false, title: 'Users'}}
+      />
+      <Stack.Screen
+        name="Chats"
+        component={Chats}
+        options={{headerShown: false}}
+      />
       <Stack.Screen name="SignUp" component={SignUp} />
     </Stack.Navigator>
   );

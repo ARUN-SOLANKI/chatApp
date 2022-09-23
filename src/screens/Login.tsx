@@ -10,15 +10,23 @@ import {
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {signInWithFirebase} from '../utils/firebase';
-import {setItem} from '../utils/AsyncStorage';
+import {setItem, getItem} from '../utils/AsyncStorage';
+import {stringNullType, userInfoType, navigationPropType} from '../utils/Types';
+import firestore from '@react-native-firebase/firestore';
+const userCollection = firestore().collection('users');
 
-const Login = ({navigation, isLogIn}: any) => {
-  const [userInfo, setUserInfo] = useState({
+type Proptype = {
+  navigation: navigationPropType;
+};
+
+const Login = ({navigation}: Proptype) => {
+  const [userInfo, setUserInfo] = useState<userInfoType>({
     email: '',
     password: '',
     error: '',
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLogIn, setIsLogIn] = useState<stringNullType>('');
 
   const userData = (key: string, value: string) => {
     setUserInfo({
@@ -41,14 +49,25 @@ const Login = ({navigation, isLogIn}: any) => {
       setIsLoading(true);
       const res = await signInWithFirebase(userInfo.email, userInfo.password);
       if (res?.user?.uid) {
+        setIsLoading(false);
         setItem('UID', res?.user?.uid);
+        setItem('EMAIL', res?.user?.email);
+        userCollection.doc(res?.user?.uid).update({
+          loginTime: new Date(),
+        });
         setUserInfo({
           email: '',
           password: '',
           error: '',
         });
-        navigation.navigate('Home');
+        navigation.navigate('MyTabs');
+      } else {
         setIsLoading(false);
+        setUserInfo({
+          ...userInfo,
+          error: res,
+        });
+        errTime();
       }
     } else {
       setIsLoading(false);
@@ -61,11 +80,15 @@ const Login = ({navigation, isLogIn}: any) => {
   };
 
   useEffect(() => {
-    if (isLogIn) {
-      console.log(isLogIn, 'bdkcnsdjvbaksbsdkcnskxxfnckd');
-      // navigation.navigate('Home');
+    IsuserLogIn();
+  }, []);
+
+  const IsuserLogIn = async () => {
+    const res = await getItem('UID');
+    if (res) {
+      navigation.navigate('MyTabs');
     }
-  }, [isLogIn]);
+  };
 
   return (
     <View style={styles.mainContainer}>
